@@ -1,0 +1,16 @@
+sample-id	sample-type	filtration	sample-quantity	sample-control
+#q2:types	categorical	categorical	categorical	categorical
+KT	kit-control	NA	NA	control
+104-100-filt	core-104	filtrate	100	sample
+FLT	clean-filter	NA	NA	control
+103l-10	core-103-light	filter	10	sample
+103d-10	core-103-dark	filter	10	sample
+104-10	core-104	filter	10	sample
+103d-10-filt	core-103-dark	filtrate	10	sample
+104-10-filt	core-104	filtrate	10	sample
+103l-100	core-103-light	filter	100	sample
+103d-100	core-103-dark	filter	100	sample
+104-100	core-104	filter	100	sample
+103l-100-filt	core-103-light	filtrate	100	sample
+103d-100-filt	core-103-dark	filtrate	100	sample
+BlankpcrCES3	Blank	NA	NA	control

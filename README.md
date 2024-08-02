@@ -19,7 +19,7 @@ This repository contains the code and instructions for performing a 16S amplicon
   	- [Identify Hydrogenase Genes](#identify-hydrogenase-genes)
 
 ## Prerequisites
-- Access to a Unix-based command line system, here use used the Cedar system from the Digial Research Alliance of Canada (DRAC) [https://alliancecan.ca/en](https://alliancecan.ca/en).
+- Access to a Unix-based command line system, here we used the Cedar system from the Digial Research Alliance of Canada (DRAC) [https://alliancecan.ca/en](https://alliancecan.ca/en).
 
 
 ## Raw Data Storage
@@ -770,7 +770,7 @@ out of 873 genomes, 57 genomes contain more than 1 hydrogenase annotations
 	GCA_900496975.1.faa.gz:>SSW72463.1 putative Ni/Fe-hydrogenase B-type cytochrome subunit [Achromobacter veterisilvae]
 
 ### Data
-All intermediate files and visualization files generated in this pipeline can be found in the data folder: [https://github.com/rzhan186/CNL_halite/data](https://github.com/rzhan186/CNL_halite)
+All metadata and visualization files generated in this pipeline can be found in the data folder: [https://github.com/rzhan186/CNL_halite/data](https://github.com/rzhan186/CNL_halite/data)
 
 
 ### Support
