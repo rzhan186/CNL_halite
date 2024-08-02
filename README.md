@@ -525,24 +525,24 @@ Okay, not much difference, what were present in the controls are still there.
   	
 	comparing results for before and after filtering, we see that feature frequency dropped a lot in the control samples, but rarely changed in the actual samples
     
+	```bash
+	| Sample ID     | Before filtering frequency | After filtering frequency |
+	|---------------|----------------------------|---------------------------|
+	| 103d-10       | 10339                      | 10127                     |
+	| 103d-10-filt  | 24007                      | 24007                     |
+	| 103d-100      | 3070                       | 3070                      |
+	| 103d-100-filt | 7776                       | 7776                      |
+	| 103l-10       | 55872                      | 55872                     |
+	| 103l-100      | 3348                       | 3348                      |
+	| 103l-100-filt | 4343                       | 4343                      |
+	| 104-10        | 5874                       | 5874                      |
+	| 104-10-filt   | 4315                       | 4315                      |
+	| 104-100       | 2580                       | 2580                      |
+	| 104-100-filt  | 7096                       | 7096                      |
+	| BlankpcrCES3  | 142                        | 127                       |
+	| FLT           | 7726                       | 2959                      |
+	| KT            | 6199                       | 1207                      |
 	```
-| Sample ID     | Before filtering frequency | After filtering frequency |
-|---------------|----------------------------|---------------------------|
-| 103d-10       | 10339                      | 10127                     |
-| 103d-10-filt  | 24007                      | 24007                     |
-| 103d-100      | 3070                       | 3070                      |
-| 103d-100-filt | 7776                       | 7776                      |
-| 103l-10       | 55872                      | 55872                     |
-| 103l-100      | 3348                       | 3348                      |
-| 103l-100-filt | 4343                       | 4343                      |
-| 104-10        | 5874                       | 5874                      |
-| 104-10-filt   | 4315                       | 4315                      |
-| 104-100       | 2580                       | 2580                      |
-| 104-100-filt  | 7096                       | 7096                      |
-| BlankpcrCES3  | 142                        | 127                       |
-| FLT           | 7726                       | 2959                      |
-| KT            | 6199                       | 1207                      |
-```
 
 ### Genus-level Taxonomic Classifications
 
