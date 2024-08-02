@@ -770,8 +770,7 @@ out of 873 genomes, 57 genomes contain more than 1 hydrogenase annotations
 	GCA_900496975.1.faa.gz:>SSW72463.1 putative Ni/Fe-hydrogenase B-type cytochrome subunit [Achromobacter veterisilvae]
 
 ### Data
-All metadata and visualization files generated in this pipeline can be found in the data folder: [https://github.com/rzhan186/CNL_halite/data](https://github.com/rzhan186/CNL_halite/data)
-
+All metadata and visualization files generated in this pipeline can be found in the data folder: [https://github.com/rzhan186/CNL_halite/tree/main/data](https://github.com/rzhan186/CNL_halite/tree/main/data)
 
 ### Support
 For any questions about the this bioinformatic pipeline, please contact:
