@@ -197,18 +197,21 @@ note: "CNL_sample-metadata.tsv" this metadata file needs to be created in advanc
 
 ### Taxonomic classifications
 
-#### Download the latest GreenGene taxonomic classifier for full length and v4 region of the 16S rRNA sequences.
+12. **Download the latest GreenGene taxonomic classifier for full length and v4 region of the 16S rRNA sequences:**
 
+	```bash
 	cd $SCRATCH/CNL/qiime2
 	wget https://ftp.microbio.me/greengenes_release/2022.10/sklearn-1.4.2-compatible-nb-classifiers/2022.10.backbone.full-length.nb.sklearn-1.4.2.qza --no-check-certificate
 	
 	wget https://ftp.microbio.me/greengenes_release/2022.10/sklearn-1.4.2-compatible-nb-classifiers/2022.10.backbone.v4.nb.sklearn-1.4.2.qza --no-check-certificate
+	```
 
 	
 #### determine taxonomic composition of the sample
 
-##### Using the full length 16S classifier
+13. **Using the full length 16S classifier:**
 
+		```bash
 		input=$SCRATCH/CNL/qiime2
 		output=$SCRATCH/CNL/qiime2
 		
@@ -224,12 +227,11 @@ note: "CNL_sample-metadata.tsv" this metadata file needs to be created in advanc
 		qiime metadata tabulate \
 		--m-input-file $input/CNL_taxonomy-full-length.qza \
 		--o-visualization $output/CNL_taxonomy-full-length.qzv
+		```
 
-##### using a more strict confidence value
-"what does this mean? see this post: [https://forum.qiime2.org/t/how-is-the-confidence-calculated-with-taxa-assignments/179/3]()
+14. **Using a more strict confidence value:**
 
-The basic classification method is to decompose the read into a bag of overlapping 8-mers, then feed that as input to the machine learning (Naive Bayes by default) classifier. The confidence of a classification is calculated by bootstrapping (subsampling) the bag of 8-mers 100 times, and seeing how many times the subsample comes up with the same classification as the full read. If the confidence parameter is between zero and one, the classifier will start at the top taxonomic level and work its way down the levels until the calculated confidence falls below the value of the input parameter. At that point it will truncate the classification to the last good level and report the calculated confidence in the Confidence column."
-
+	```bash
 	apptainer exec -B $PWD:/home \
 	-B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
 	qiime feature-classifier classify-sklearn \
@@ -243,9 +245,16 @@ The basic classification method is to decompose the read into a bag of overlappi
 	qiime metadata tabulate \
 	--m-input-file $input/CNL_taxonomy-full-length-strict.qza \
 	--o-visualization $output/CNL_taxonomy-full-length-strict.qzv
+	```
+		
+	"what does a more strict confidence value mean? see this post: [https://forum.qiime2.org/t/how-is-the-confidence-calculated-with-taxa-assignments/179/3]()
+
+	The basic classification method is to decompose the read into a bag of overlapping 8-mers, then feed that as input to the machine learning (Naive Bayes by default) classifier. The confidence of a classification is calculated by bootstrapping (subsampling) the bag of 8-mers 100 times, and seeing how many times the subsample comes up with the same classification as the full read. If the confidence parameter is between zero and one, the classifier will start at the top taxonomic level and work its way down the levels until the calculated confidence falls below the value of the input parameter. At that point it will truncate the classification to the last good level and report the calculated confidence in the Confidence column."
 
 
-#### 3.2.2 using the V4 region 16S classifier
+15. **using the V4 region 16S classifier:**
+
+	```bash
 	apptainer exec -B $PWD:/home \
 	-B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
 	qiime feature-classifier classify-sklearn \
@@ -258,9 +267,11 @@ The basic classification method is to decompose the read into a bag of overlappi
 	qiime metadata tabulate \
 	--m-input-file $input/CNL_taxonomy-v4.qza \
 	--o-visualization $output/CNL_taxonomy-v4.qzv
+	```	
 
-##### using a more strict confidence value
+16. **Using a more strict confidence value:**
 
+	```bash
 	apptainer exec -B $PWD:/home \
 	-B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
 	qiime feature-classifier classify-sklearn \
@@ -274,8 +285,11 @@ The basic classification method is to decompose the read into a bag of overlappi
 	qiime metadata tabulate \
 	--m-input-file $input/CNL_taxonomy-v4-strict.qza \
 	--o-visualization $output/CNL_taxonomy-v4-strict.qzv
+	```
 
-#### view the taxonomic composition of the samples using bar plots
+17. **view the taxonomic composition of the samples using bar plots:**
+
+	```bash
 	input=$SCRATCH/CNL/qiime2
 	output=$SCRATCH/CNL/qiime2
 	
@@ -295,7 +309,7 @@ The basic classification method is to decompose the read into a bag of overlappi
 	--m-metadata-file $input/CNL_sample-metadata.tsv \
 	--o-visualization $output/CNL_taxa-bar-plots-v4.qzv
 
-##### strict version
+	# strict version
 	apptainer exec -B $PWD:/home \
 	-B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
 	qiime taxa barplot \
@@ -311,26 +325,23 @@ The basic classification method is to decompose the read into a bag of overlappi
 	--i-taxonomy $input/CNL_taxonomy-v4-strict.qza \
 	--m-metadata-file $input/CNL_sample-metadata.tsv \
 	--o-visualization $output/CNL_taxa-bar-plots-v4-strict.qzv
-
+	```
 
 The taxonomy profiles obtained using a full-length 16S rRNA gene classifier are similar to those obtained with a V4-specific classifier, and there is no significant change in community profiles when increasing the confidence level from 0.7 to 0.9. However, since hits are detected in our kit control and blank filter control, the next step is to address these issues.
-
 
 
 ### Dealing with Controls
 
 #### Removing chimeric sequences using q2-vsearch
 
-12. **Run de novo chimera checking:**
+18. **Run de novo chimera checking:**
         
     ```bash
     module load apptainer
     input=$SCRATCH/CNL/qiime2
     output=$SCRATCH/CNL/qiime2
 
-    apptainer exec -B $PWD:/home
-
- \
+    apptainer exec -B $PWD:/home\
     -B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
     qiime vsearch uchime-denovo \
     --i-table $input/CNL_table-dada2.qza \
@@ -338,7 +349,7 @@ The taxonomy profiles obtained using a full-length 16S rRNA gene classifier are 
     --output-dir $output/CNL_uchime-dn-out
     ```
 
-13. **Visualize summary stats:**
+19. **Visualize summary stats:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -348,7 +359,7 @@ The taxonomy profiles obtained using a full-length 16S rRNA gene classifier are 
     --o-visualization $output/CNL_uchime-dn-out/stats.qzv
     ```
 
-14. **Exclude chimeras and "borderline chimeras":**
+20. **Exclude chimeras and "borderline chimeras":**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -372,7 +383,7 @@ The taxonomy profiles obtained using a full-length 16S rRNA gene classifier are 
     --o-visualization $output/CNL_uchime-dn-out/table-nonchimeric-wo-borderline.qzv
     ```
 
-15. **Check the resulting bar graph for changes compared to without chimera removal:**
+21. **Check the resulting bar graph for changes compared to without chimera removal:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -402,7 +413,7 @@ Okay, not much difference, what were present in the controls are still there.
 
 #### Alpha and beta diversity analysis
 
-16. **Generate a tree for phylogenetic diversity analyses:**
+22. **Generate a tree for phylogenetic diversity analyses:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -415,7 +426,7 @@ Okay, not much difference, what were present in the controls are still there.
     --o-rooted-tree $output/CNL_rooted-tree.qza
     ```
 
-17. **Alpha and beta diversity analysis:**
+23. **Alpha and beta diversity analysis:**
    
     An important parameter for this script is --p-sampling-depth, which determines the even sampling (rarefaction) depth. Since most diversity metrics are sensitive to varying sampling depths across samples, the script will randomly subsample the counts from each sample to the provided value. For instance, with --p-sampling-depth 500, the counts in each sample will be subsampled to a total count of 500. Samples with counts lower than this value will be excluded from the diversity analysis. It's crucial to choose this value carefully by reviewing the table.qzv file, aiming for a high value to retain more sequences per sample while excluding as few samples as possible. We chose a depth of 2579 to retain all samples except BlankpcrCES3, which only had 142 counts.
         
@@ -430,11 +441,11 @@ Okay, not much difference, what were present in the controls are still there.
     --output-dir $output/core-metrics-results
     ```
 
-By examining the PCoA plots, especially the ones based on bray-curtis distance, jaccard distance, and weighted UNIFRAC, we found that the controls samples (kit control and filter control) tend to be separated from the other core samples. This is actually a good news and align with the scenario one described above - 'If the controls are very dissimilar from your biological samples, or there is no overlap between your biological samples and your controls you do not have to filter them from your data, but describe them in your study'. 
+	By examining the PCoA plots, especially the ones based on bray-curtis distance, jaccard distance, and weighted UNIFRAC, we found that the controls samples (kit control and filter control) tend to be separated from the other core samples. This is actually a good news and align with the scenario one described above - 'If the controls are very dissimilar from your biological samples, or there is no overlap between your biological samples and your controls you do not have to filter them from your data, but describe them in your study'. 
 
 #### Filtering out features in control samples
 
-18. **Filter out features in control samples:**
+24. **Filter out features in control samples:**
         
     ```bash
     module load apptainer
@@ -466,9 +477,9 @@ By examining the PCoA plots, especially the ones based on bray-curtis distance, 
     --o-visualization $output/table-nonchimeric-wo-borderline-filter-summ.qzv
     ```
 
-19. **Filtering features found in control samples from the other samples:**
+25. **Filtering features found in control samples from the other samples:**
 
-caution is to be exercised here, we don't want to remove all features in the control sample, see post: [https://forum.qiime2.org/t/filtering-features-found-in-controls/1739]()
+	caution is to be exercised here, we don't want to remove all features in the control sample, see post: [https://forum.qiime2.org/t/filtering-features-found-in-controls/1739]()
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -490,12 +501,12 @@ caution is to be exercised here, we don't want to remove all features in the con
     ```
   Upon examining the feature table, we observed that many features present in the kit control are exclusive to it, while certain other features are found across all samples. To avoid eliminating features that are common to all samples, we will focus on those features that predominantly appear in the kit control but not in the other samples.
   
-creating a metadata file with the features found in control samples
+	Creating a metadata file (`CNL_control_features_metadata.tsv`) with the features found in control samples
 
-	CNL_control_features_metadata.tsv
-	
-excluding the control feature in the feature table
 
+26. **Excluding the control feature in the feature table:**
+
+	```bash
 	apptainer exec -B $PWD:/home \
 	-B $SCRATCH/CNL/qiime2 /project/def-careg421/ruizhang/software/qiime2-202405.sif \
 	qiime feature-table filter-features \
@@ -510,10 +521,11 @@ excluding the control feature in the feature table
 	qiime feature-table summarize \
 	--i-table $input/table-nonchimeric-wo-borderline-filter.qza \
 	--o-visualization $output/table-nonchimeric-wo-borderline-filter-summ.qzv
-  
-comparing results for before and after filtering, we see that feature frequency dropped a lot in the control samples, but rarely changed in the actual samples
+  	```
+  	
+	comparing results for before and after filtering, we see that feature frequency dropped a lot in the control samples, but rarely changed in the actual samples
     
-```
+	```
 | Sample ID     | Before filtering frequency | After filtering frequency |
 |---------------|----------------------------|---------------------------|
 | 103d-10       | 10339                      | 10127                     |
@@ -536,7 +548,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 #### Remove control samples from the feature table
 
-20. **Remove control samples from the feature table:**
+27. **Remove control samples from the feature table:**
         
     ```bash
     module load apptainer
@@ -556,7 +568,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 #### Filter feature table by genus level
 
-21. **Filter feature table by genus level:**
+28. **Filter feature table by genus level:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -570,7 +582,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 #### Export taxonomy table
 
-22. **Export taxonomy table:**
+29. **Export taxonomy table:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -586,7 +598,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 #### Taxonomy bar plot
 
-23. **Generate taxonomy bar plot for the filtered samples at genus level:**
+30. **Generate taxonomy bar plot for the filtered samples at genus level:**
         
     ```bash
     apptainer exec -B $PWD:/home \
@@ -638,7 +650,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 ### Download Representative Genomes from GTDB
 
-24. **Download representative genomes from GTDB using GToTree:**
+31. **Download representative genomes from GTDB using GToTree:**
         
     ```bash
     module load StdEnv/2020
@@ -681,7 +693,7 @@ comparing results for before and after filtering, we see that feature frequency 
 
 ### Identify Hydrogenase Genes
 
-25. **Identify hydrogenase genes from the representative genomes:**
+32. **Identify hydrogenase genes from the representative genomes:**
         
     ```bash
     cd /project/def-careg421/ruizhang/CNL/GTDB_rep_genomes/genome_files
